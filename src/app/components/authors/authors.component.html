@@ -10,19 +10,25 @@
 <table>
   <thead>
     <tr>
-      <th>ID</th><th>Name</th><th>Date Of Birth</th><th>Nationality</th><th>Actions</th>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Date Of Birth</th>
+      <th>Nationality</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let a of authors">
+    <tr *ngFor="let a of authors; let i = index ">
       <td>{{a.id}}</td>
       <td><input [(ngModel)]="a.name"></td>
       <td><input [(ngModel)]="a.date_of_birth"></td>
       <td><input [(ngModel)]="a.nationality"></td>
       <td>
-        <button (click)="updateAuthor(a)">Update</button>
-        <button (click)="deleteAuthor(a.id!)">Delete</button>
-      </td>
+    <tr>
+      <td><button (click)="updateAuthor(a)">Update</button></td>
+      <td><button (click)="deleteAuthor(a.id!)">Delete</button></td>
+    </tr>
+    </td>
     </tr>
   </tbody>
 </table>

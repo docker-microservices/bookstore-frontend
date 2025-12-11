@@ -1,5 +1,5 @@
 import { Author } from '../../models/author.model';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthorsService } from '../../services/author.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,14 +15,16 @@ export class AuthorsComponent implements OnInit {
   authors: Author[] = [];
   newAuthor: Author = { id: 0, name: '', date_of_birth: '', nationality: '' };
 
-  constructor(private authorsService: AuthorsService) { }
+  constructor(private authorsService: AuthorsService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.loadAuthors();
   }
 
   loadAuthors(): void {
-    this.authorsService.getAllAuthors().subscribe(data => this.authors = data);
+    this.authorsService.getAllAuthors().subscribe(data =>{ this.authors = data;
+      this.cdr.detectChanges();
+    });
   }
 
   addAuthor(): void {
