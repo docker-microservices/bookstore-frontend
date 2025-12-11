@@ -1,0 +1,7 @@
+services:
+  bookstore-frontend:
+    image: "${DOCKER_USERNAME}/bookstore-frontend:latest" 
+    container_name: bookstore-frontend
+    ports:
+      - "80:80"
+    restart: always
