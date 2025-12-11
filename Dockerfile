@@ -3,7 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-RUN npx ng build --prod
+RUN npx ng build --configuration production
 
 FROM nginx:alpine
 COPY --from=build /app/dist/<your-app-name> /usr/share/nginx/html
