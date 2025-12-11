@@ -28,7 +28,7 @@ jobs:
         run: npm ci
 
       - name: Build Angular app
-        run: npx ng build --PROD_SERVER
+        run: npx ng build --configuration production
 
       - name: Log in to Docker registry
         uses: docker/login-action@v3
