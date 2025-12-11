@@ -6,7 +6,7 @@ COPY . .
 RUN npx ng build --configuration production
 
 FROM nginx:alpine
-COPY --from=build /app/dist/bookstore-frontend /usr/share/nginx/html
+COPY --from=build /app/dist/bookstore-frontend/browser /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
