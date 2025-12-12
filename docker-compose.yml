@@ -1,6 +1,6 @@
 services:
   bookstore-frontend:
-    image: "${DOCKER_USERNAME}/bookstore-frontend:latest"
+    image: "${DOCKER_USERNAME}/bookstore-frontend:${GITHUB_SHA}"
     ports:
       - "80:80"
     deploy:
@@ -9,5 +9,4 @@ services:
         condition: on-failure
       placement:
         constraints:
-
           - node.labels.role == apis

@@ -38,7 +38,7 @@ jobs:
 
       - name: Build & Push Docker image
         run: |
-          IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/bookstore-frontend:latest
+          IMAGE_NAME=${{ secrets.DOCKER_USERNAME }}/bookstore-frontend:${GITHUB_SHA}
           docker build -t $IMAGE_NAME .
           docker push $IMAGE_NAME
 
@@ -78,6 +78,7 @@ jobs:
           port: ${{ secrets.PROD_PORT }}
           script: |
             cd ~/docker-microservices/bookstore-frontend
+            sed -i "s|\${GITHUB_SHA}|${GITHUB_SHA}|g" docker-compose.yml
             sed -i "s|\${DOCKER_USERNAME}|${{ secrets.DOCKER_USERNAME }}|g" docker-compose.yml
-            docker pull ${{ secrets.DOCKER_USERNAME }}/bookstore-frontend:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/bookstore-frontend:${GITHUB_SHA}
             docker stack deploy --with-registry-auth -c docker-compose.yml bookstore-frontend
