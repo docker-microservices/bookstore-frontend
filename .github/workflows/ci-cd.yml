@@ -76,6 +76,7 @@ jobs:
           username: ${{ secrets.PROD_USER }}
           key: ${{ secrets.PROD_SSH_KEY }}
           port: ${{ secrets.PROD_PORT }}
+          envs: GITHUB_SHA
           script: |
             cd ~/docker-microservices/bookstore-frontend
             sed -i "s|\${GITHUB_SHA}|${GITHUB_SHA}|g" docker-compose.yml
