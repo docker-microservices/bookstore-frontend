@@ -9,4 +9,5 @@ services:
         condition: on-failure
       placement:
         constraints:
-          - node.labels.role == gateway
+
+          - node.labels.role == apis
