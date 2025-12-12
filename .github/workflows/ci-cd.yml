@@ -52,33 +52,32 @@ jobs:
       - name: Prepare directory on VM
         uses: appleboy/ssh-action@v0.1.9
         with:
-          host: ${{ secrets.PROD_SERVER_HOST }}
-          username: ${{ secrets.PROD_SERVER_USER }}
-          key: ${{ secrets.PROD_SERVER_SSH_KEY }}
-          port: ${{ secrets.PROD_SERVER_PORT }}
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          port: ${{ secrets.PROD_PORT }}
           script: |
             mkdir -p ~/docker-microservices/bookstore-frontend
-            echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" > ~/docker-microservices/bookstore-frontend/.env
 
       - name: Copy docker-compose to VM
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.PROD_SERVER_HOST }}
-          username: ${{ secrets.PROD_SERVER_USER }}
-          key: ${{ secrets.PROD_SERVER_SSH_KEY }}
-          port: ${{ secrets.PROD_SERVER_PORT }}
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          port: ${{ secrets.PROD_PORT }}
           source: "docker-compose.yml"
           target: "~/docker-microservices/bookstore-frontend/"
 
       - name: Deploy to VM via SSH
         uses: appleboy/ssh-action@v0.1.9
         with:
-          host: ${{ secrets.PROD_SERVER_HOST }}
-          username: ${{ secrets.PROD_SERVER_USER }}
-          key: ${{ secrets.PROD_SERVER_SSH_KEY }}
-          port: ${{ secrets.PROD_SERVER_PORT }}
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.PROD_USER }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          port: ${{ secrets.PROD_PORT }}
           script: |
             cd ~/docker-microservices/bookstore-frontend
-            docker-compose pull
-            docker-compose down
-            docker-compose up -d
+            sed -i "s|\${DOCKER_USERNAME}|${{ secrets.DOCKER_USERNAME }}|g" docker-compose.yml
+            docker pull ${{ secrets.DOCKER_USERNAME }}/bookstore-frontend:latest
+            docker stack deploy --with-registry-auth -c docker-compose.yml bookstore-frontend
