@@ -2,7 +2,7 @@ services:
   bookstore-frontend:
     image: "${DOCKER_USERNAME}/bookstore-frontend:${GITHUB_SHA}"
     ports:
-      - "80:80"
+      - "81:81"
     deploy:
       replicas: 1
       restart_policy:
