@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: '192.168.1.8:8090'
+  apiUrl: 'http://local.bookstore'
 };
